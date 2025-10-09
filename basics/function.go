@@ -18,6 +18,14 @@ func getAdditionAndMultiplication(num1 int, num2 int) (int, int) {
 	return sum, mult
 }
 
+func printSomething() {
+	fmt.Println("Education must be free!")
+}
+
+func helloWorld(name string) string {
+	return "Hello everyone, from " + name
+}
+
 func main() {
 	a := 10
 	b := 20
@@ -28,4 +36,8 @@ func main() {
 
 	d, e := getAdditionAndMultiplication(a, b)
 	fmt.Println(d, e)
+
+	printSomething()
+
+	fmt.Println(helloWorld("Go"))
 }

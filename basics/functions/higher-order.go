@@ -4,7 +4,7 @@ import "fmt"
 
 // higher order function that takes function as params
 func processOperation(a int, b int, op func(p int, q int)) {
-	op(a, b) // callback function
+	op(a, b) // this is callback function
 }
 
 // higher order function that returns function

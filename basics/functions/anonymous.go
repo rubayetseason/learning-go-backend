@@ -8,4 +8,10 @@ func main() {
 	func(a, b int) {
 		fmt.Println(a + b)
 	}(10, 20)
+
+	a := func(a, b int) {
+		fmt.Println(a + b)
+	}
+
+	a(10, 20)
 }

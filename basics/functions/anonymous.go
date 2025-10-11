@@ -14,4 +14,13 @@ func main() {
 	}
 
 	a(10, 20)
+
+	// newAdd(1, 2) // wont work because of declrataion before initialization
+
+	newAdd := func(a int, b int) {
+		fmt.Println(a + b)
+	}
+
+	newAdd(10, 20)
+
 }

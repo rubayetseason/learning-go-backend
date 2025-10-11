@@ -20,10 +20,12 @@ func main() {
 	pers1.salary = 6000
 
 	// Pers2 specification
-	pers2.name = "Cecilie"
-	pers2.age = 24
-	pers2.job = "Marketing"
-	pers2.salary = 4500
+	pers2 = Person{
+		name:   "Cecilie",
+		age:    24,
+		job:    "Marketing",
+		salary: 4500,
+	}
 
 	// Access and print Pers1 info
 	fmt.Println("Name: ", pers1.name)

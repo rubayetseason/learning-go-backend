@@ -17,4 +17,16 @@ func main() {
 	fmt.Println("Value stored in x = ", x)
 	fmt.Println("Address of x = ", &x)
 	fmt.Println("Value stored in variable p = ", p)
+
+	a := 10
+
+	fmt.Println("value before *:", a)
+
+	q := &a
+	*q = 20
+	fmt.Println("value after *:", a)
+
+	fmt.Println("address:", q)               // address of variable x
+	fmt.Println("value at the address:", *q) // value at the address
+
 }

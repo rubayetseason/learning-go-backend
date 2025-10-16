@@ -8,15 +8,11 @@ func main() {
 
 	// array to slice
 	slice := arr[1:4] // [2, 3, 4], length 3, capacity 5
-	fmt.Println(slice)
-	fmt.Println(len(slice))
-	fmt.Println(cap(slice))
+	fmt.Println("The slice is ~ ", slice, "with length ~ ", len(slice), "and capacity ~ ", cap(slice))
 
 	// slice to slice
 	slice2 := slice[1:3] // [3, 4], length 2, capacity 4 --> cause slice1 is a reference of the main array
-	fmt.Println(slice2)
-	fmt.Println(len(slice2))
-	fmt.Println(cap(slice2))
+	fmt.Println("The slice is ~ ", slice2, "with length ~ ", len(slice2), "and capacity ~ ", cap(slice2))
 
 }
 

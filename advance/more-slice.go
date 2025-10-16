@@ -15,4 +15,8 @@ func main() {
 	s[0] = 1
 	s[1] = 2
 	fmt.Println("The slice is ~ ", s, "with length ~ ", len(s), "and capacity ~ ", cap(s))
+
+	// null slice
+	var a []int
+	fmt.Println(a) // []
 }

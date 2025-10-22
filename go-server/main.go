@@ -27,6 +27,9 @@ type Product struct {
 var productList []Product // slice of products
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
 	if r.Method != http.MethodGet {
 		http.Error(w, "This method is not allowed", http.StatusMethodNotAllowed)
 		return

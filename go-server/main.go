@@ -27,30 +27,20 @@ type Product struct {
 var productList []Product // slice of products
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	handleCORS(w)
+	handlePreflightReq(w, r)
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "This method is not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	encoder := json.NewEncoder(w)
-
-	encoder.Encode(productList)
-
+	sendResponse(w, productList, http.StatusOK)
 }
 
 func createProductHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
-
-	if r.Method == http.MethodOptions {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
+	handleCORS(w)
+	handlePreflightReq(w, r)
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "This method is not allowed", http.StatusMethodNotAllowed)
@@ -68,11 +58,28 @@ func createProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	newProduct.ID = len(productList) + 1
 	productList = append(productList, newProduct)
+	sendResponse(w, newProduct, http.StatusCreated)
 
-	w.WriteHeader(http.StatusCreated)
+}
+
+func handleCORS(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+}
+
+func handlePreflightReq(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+}
+
+func sendResponse(w http.ResponseWriter, data interface{}, statusCode int) {
+	w.WriteHeader(statusCode)
 	encoder := json.NewEncoder(w)
-	encoder.Encode(newProduct)
-
+	encoder.Encode(data)
 }
 
 func main() {

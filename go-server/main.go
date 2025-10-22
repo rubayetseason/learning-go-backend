@@ -41,6 +41,40 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func createProductHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "This method is not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var newProduct Product
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&newProduct)
+
+	if err != nil {
+		http.Error(w, "Please enter a valid json", http.StatusBadRequest)
+		return
+	}
+
+	newProduct.ID = len(productList) + 1
+	productList = append(productList, newProduct)
+
+	w.WriteHeader(http.StatusCreated)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(newProduct)
+
+}
+
 func main() {
 	mux := http.NewServeMux() // router
 
@@ -49,6 +83,8 @@ func main() {
 	mux.HandleFunc("/about-me", aboutHandler) // about-me route
 
 	mux.HandleFunc("/products", productsHandler)
+
+	mux.HandleFunc("/create-product", createProductHandler)
 
 	fmt.Println("🚀 Golang server is running on: 5000")
 
@@ -84,21 +120,5 @@ func init() {
 		ImageUrl:    "https://via.placeholder.com/150",
 	}
 
-	prod4 := Product{
-		ID:          4,
-		Title:       "Product 4",
-		Description: "This is a product 4",
-		Price:       40.00,
-		ImageUrl:    "https://via.placeholder.com/150",
-	}
-
-	prod5 := Product{
-		ID:          5,
-		Title:       "Product 5",
-		Description: "This is a product 5",
-		Price:       50.00,
-		ImageUrl:    "https://via.placeholder.com/150",
-	}
-
-	productList = append(productList, prod1, prod2, prod3, prod4, prod5)
+	productList = append(productList, prod1, prod2, prod3)
 }

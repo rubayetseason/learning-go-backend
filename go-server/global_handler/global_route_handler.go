@@ -1,8 +1,8 @@
-package main
+package global_handler
 
 import "net/http"
 
-func globalHandler(mux *http.ServeMux) http.Handler {
+func GlobalHandler(mux *http.ServeMux) http.Handler {
 	handleAllRequests := func(w http.ResponseWriter, r *http.Request) {
 		// handle CORS headers
 		w.Header().Set("Access-Control-Allow-Origin", "*")

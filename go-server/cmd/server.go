@@ -1,11 +1,12 @@
 package cmd
 
 import (
+	"fmt"
+	"net/http"
+
 	"ecommerce/global_handler"
 	"ecommerce/middleware"
 	"ecommerce/modules/products"
-	"fmt"
-	"net/http"
 )
 
 func Server() {

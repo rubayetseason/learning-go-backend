@@ -14,9 +14,9 @@ func Server() {
 
 	manager := middleware.NewManager()
 
-	mux.Handle("GET /products", manager.With(middleware.Logger)(http.HandlerFunc(products.GetProductsHandler)))
-	mux.Handle("POST /create-product", manager.With(middleware.Logger)(http.HandlerFunc(products.CreateProductHandler)))
-	mux.Handle("GET /products/{productId}", manager.With(middleware.Logger)(http.HandlerFunc(products.GetProductByIdHandler)))
+	mux.Handle("GET /products", manager.With(http.HandlerFunc(products.GetProductsHandler), middleware.Logger))
+	mux.Handle("POST /create-product", manager.With(http.HandlerFunc(products.CreateProductHandler), middleware.Logger))
+	mux.Handle("GET /products/{productId}", manager.With(http.HandlerFunc(products.GetProductByIdHandler), middleware.Logger))
 
 	globalRouter := global_handler.GlobalHandler(mux)
 

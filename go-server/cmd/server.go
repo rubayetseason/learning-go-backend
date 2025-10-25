@@ -6,7 +6,6 @@ import (
 
 	"ecommerce/global_handler"
 	"ecommerce/middleware"
-	"ecommerce/modules/products"
 )
 
 func Server() {
@@ -14,9 +13,9 @@ func Server() {
 
 	manager := middleware.NewManager()
 
-	mux.Handle("GET /products", manager.With(http.HandlerFunc(products.GetProductsHandler), middleware.Logger))
-	mux.Handle("POST /create-product", manager.With(http.HandlerFunc(products.CreateProductHandler), middleware.Logger))
-	mux.Handle("GET /products/{productId}", manager.With(http.HandlerFunc(products.GetProductByIdHandler), middleware.Logger))
+	manager.Use(middleware.Logger, middleware.Print)
+
+	initRoutes(mux, manager)
 
 	globalRouter := global_handler.GlobalHandler(mux)
 

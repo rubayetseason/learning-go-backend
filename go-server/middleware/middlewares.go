@@ -17,7 +17,6 @@ func (mngr *Manager) Use(middlewares ...Middleware) { // pass one or more middle
 	mngr.globalMiddlewares = append(mngr.globalMiddlewares, middlewares...) // append adds these middlewares to the existing globalMiddlewares list
 }
 
-
 // with method wraps your main handler function with all the middlewares
 func (mngr *Manager) With(next http.Handler, middlewares ...Middleware) http.Handler {
 	n := next
@@ -26,8 +25,14 @@ func (mngr *Manager) With(next http.Handler, middlewares ...Middleware) http.Han
 		n = middleware(n)
 	}
 
-	for _, globalMiddleware := range mngr.globalMiddlewares {
-		n = globalMiddleware(n)
+	return n
+}
+
+func (mngr *Manager) WrappedMux(next http.Handler) http.Handler {
+	n := next
+
+	for _, middleware := range mngr.globalMiddlewares {
+		n = middleware(n)
 	}
 
 	return n

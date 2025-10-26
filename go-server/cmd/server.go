@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"ecommerce/global_handler"
 	"ecommerce/middleware"
 )
 
@@ -17,7 +16,7 @@ func Server() {
 
 	initRoutes(mux, manager)
 
-	globalRouter := global_handler.GlobalHandler(mux)
+	globalRouter := middleware.CorsWithPreflightHandler(mux)
 
 	fmt.Println("🚀 Golang server is running on: 5000")
 

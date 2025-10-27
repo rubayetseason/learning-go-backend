@@ -3,5 +3,5 @@ package main
 import "ecommerce/cmd"
 
 func main() {
-	cmd.Server()
+	cmd.Serve()
 }

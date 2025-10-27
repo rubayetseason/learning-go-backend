@@ -1,4 +1,4 @@
-package cmd
+package rest
 
 import (
 	"fmt"
@@ -7,12 +7,11 @@ import (
 	"strconv"
 
 	"ecommerce/config"
-	"ecommerce/middleware"
+	"ecommerce/rest/middleware"
+	"ecommerce/rest/routes"
 )
 
-func Server() {
-
-	cnf := config.GetConfig()
+func Server(cnf config.Config) {
 
 	manager := middleware.NewManager()
 	manager.Use(middleware.PreflightHandler,
@@ -23,7 +22,7 @@ func Server() {
 	mux := http.NewServeMux() // router
 	wrappedMux := manager.WrappedMux(mux)
 
-	initRoutes(mux, manager)
+	routes.InitRoutes(mux, manager)
 
 	portAddress := ":" + strconv.Itoa(cnf.HttpPort)
 	fmt.Println("🚀 Golang server is running on port", portAddress)

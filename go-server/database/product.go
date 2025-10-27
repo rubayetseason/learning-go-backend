@@ -10,7 +10,46 @@ type Product struct {
 	// camelCase makes these variables private, other packages cannot access --> postman too
 }
 
-var ProductList []Product // slice of products
+var productList []Product // slice of products
+
+func StoreProduct(product Product) Product {
+	product.ID = len(productList) + 1
+	productList = append(productList, product)
+	return product
+}
+
+func ListOfProducts() []Product {
+	return productList
+}
+
+func GetSingleProduct(productID int) *Product {
+	for _, product := range productList {
+		if product.ID == productID {
+			return &product
+		}
+	}
+	return nil
+}
+
+func UpdateProduct(product Product) {
+	for i, p := range productList {
+		if p.ID == product.ID {
+			productList[i] = product
+		}
+	}
+}
+
+func DeleteProduct(productID int) {
+	var tempList []Product = make([]Product, 0)
+
+	for _, p := range productList {
+		if p.ID != productID {
+			tempList = append(tempList, p)
+		}
+	}
+
+	productList = tempList
+}
 
 func init() {
 	prod1 := Product{
@@ -37,5 +76,5 @@ func init() {
 		ImageUrl:    "https://via.placeholder.com/150",
 	}
 
-	ProductList = append(ProductList, prod1, prod2, prod3)
+	productList = append(productList, prod1, prod2, prod3)
 }

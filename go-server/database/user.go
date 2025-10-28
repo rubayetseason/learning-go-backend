@@ -21,3 +21,12 @@ func StoreUser(user User) User {
 	users = append(users, user)
 	return user
 }
+
+func CheckUserEmailAndPassword(email, password string) *User {
+	for _, user := range users {
+		if user.Email == email {
+			return &user
+		}
+	}
+	return nil
+}

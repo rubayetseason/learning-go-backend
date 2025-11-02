@@ -1,5 +1,10 @@
 package database
 
+import (
+	"fmt"
+	"strings"
+)
+
 type User struct {
 	ID          int    `json:"id"`
 	FirstName   string `json:"firstName"`
@@ -11,21 +16,27 @@ type User struct {
 
 var users []User
 
-func StoreUser(user User) User {
-	if user.ID != 0 {
-		return user
+func StoreUser(user User) (User, error) {
+	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
+	user.Password = strings.TrimSpace(user.Password)
+
+	for _, u := range users {
+		if strings.ToLower(u.Email) == user.Email {
+			return User{}, fmt.Errorf("email already exists")
+		}
 	}
-
 	user.ID = len(users) + 1
-
 	users = append(users, user)
-	return user
+	return users[len(users)-1], nil
 }
 
 func CheckUserEmailAndPassword(email, password string) *User {
-	for _, user := range users {
-		if user.Email == email {
-			return &user
+	email = strings.TrimSpace(strings.ToLower(email))
+	password = strings.TrimSpace(password)
+
+	for i := range users {
+		if strings.ToLower(users[i].Email) == email && users[i].Password == password {
+			return &users[i] // pointer to actual element
 		}
 	}
 	return nil

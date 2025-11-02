@@ -18,7 +18,12 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createdUser := database.StoreUser(newUser)
+	createdUser, err := database.StoreUser(newUser)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
 
 	util.SendResponse(w, createdUser, http.StatusCreated)
 }

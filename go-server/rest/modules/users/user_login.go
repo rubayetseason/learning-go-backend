@@ -1,6 +1,7 @@
 package users
 
 import (
+	"ecommerce/config"
 	"ecommerce/database"
 	"ecommerce/util"
 	"encoding/json"
@@ -27,7 +28,23 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	if user == nil {
 		util.SendResponse(w, "Invalid email or password", http.StatusOK)
+		return
 	}
 
-	util.SendResponse(w, user, http.StatusOK)
+	cnf := config.GetConfig()
+
+	accessToken, err := util.CreateJwt(cnf.JwtSecret, util.Payload{
+		Sub:         user.ID,
+		FirstName:   user.FirstName,
+		LastName:    user.LastName,
+		Email:       user.Email,
+		IsShopOwner: user.IsShopOwner,
+	})
+
+	if err != nil {
+		http.Error(w, "Failed to create access token", http.StatusInternalServerError)
+		return
+	}
+
+	util.SendResponse(w, accessToken, http.StatusOK)
 }

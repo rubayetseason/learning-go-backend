@@ -14,6 +14,10 @@ func Serve() {
 	productHandler := products.NewHandler()
 	userHandler := users.NewHandler()
 
-	server := rest.NewServer(productHandler, userHandler)
-	server.Bootstrap(cnf)
+	server := rest.NewServer(
+		cnf,
+		productHandler,
+		userHandler,
+	)
+	server.Bootstrap()
 }

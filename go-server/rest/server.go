@@ -13,13 +13,13 @@ import (
 )
 
 type Server struct {
-	cnf            config.Config
+	cnf            *config.Config
 	productHandler *products.Handler
 	userHandler    *users.Handler
 }
 
 func NewServer(
-	cnf config.Config,
+	cnf *config.Config,
 	productHandler *products.Handler,
 	userHandler *users.Handler,
 ) *Server {

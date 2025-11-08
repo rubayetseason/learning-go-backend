@@ -8,10 +8,24 @@ import (
 
 	"ecommerce/config"
 	"ecommerce/rest/middleware"
-	"ecommerce/rest/routes"
+	"ecommerce/rest/modules/products"
+	"ecommerce/rest/modules/users"
 )
 
-func Server(cnf config.Config) {
+type Server struct {
+	productHandler *products.Handler
+	userHandler    *users.Handler
+}
+
+func NewServer(productHandler *products.Handler,
+	userHandler *users.Handler) *Server {
+	return &Server{
+		productHandler: productHandler,
+		userHandler:    userHandler,
+	}
+}
+
+func (server *Server) Bootstrap(cnf config.Config) {
 
 	manager := middleware.NewManager()
 	manager.Use(middleware.PreflightHandler,
@@ -22,7 +36,8 @@ func Server(cnf config.Config) {
 	mux := http.NewServeMux() // router
 	wrappedMux := manager.WrappedMux(mux)
 
-	routes.InitRoutes(mux, manager)
+	server.productHandler.RegisterRoutes(mux, manager)
+	server.userHandler.RegisterRoutes(mux, manager)
 
 	portAddress := ":" + strconv.Itoa(cnf.HttpPort)
 	fmt.Println("🚀 Golang server is running on port", portAddress)

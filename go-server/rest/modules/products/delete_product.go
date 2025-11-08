@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 	productId := r.PathValue("productId")
 	id, err := strconv.Atoi(productId)
 

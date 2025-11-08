@@ -8,7 +8,7 @@ import (
 	"ecommerce/util"
 )
 
-func CreateProductHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 	var newProduct database.Product
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&newProduct)

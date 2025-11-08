@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 	productId := r.PathValue("productId")
 	id, err := strconv.Atoi(productId)
 
